@@ -159,21 +159,16 @@ export default function App() {
   const [deckMin, setDeckMin] = useState('30');
   const [roundMin, setRoundMin] = useState('50');
   const [matchFormat, setMatchFormat] = useState('bo3'); // 'bo1' or 'bo3'
-  const [fontSize, setFontSize] = useState(2.0);       // applied on release
-  const [sliderValue, setSliderValue] = useState(2.0); // tracks thumb while dragging
+  const [fontSize, setFontSize] = useState(1.5);       // applied on release
+  const [sliderValue, setSliderValue] = useState(1.5); // tracks thumb while dragging
   const [newName, setNewName] = useState('');
   const [dropName, setDropName] = useState('');
   const [notif, setNotif] = useState(null);
   const timerRef = useRef(null);
 
   useEffect(() => {
-    if (timerRunning) {
-      timerRef.current = setInterval(() => {
-        setTimerSec(s => { if (s <= 1) { setTimerRunning(false); return 0; } return s - 1; });
-      }, 1000);
-    }
     return () => clearInterval(timerRef.current);
-  }, [timerRunning]);
+  }, []);
 
   const toast = (msg, type = 'ok') => {
     setNotif({ msg, type });
@@ -189,6 +184,12 @@ export default function App() {
     const s = parseInt(mins) * 60;
     if (!s) return;
     setTimerSec(s); setTimerRunning(true); setTimerStarted(true);
+    timerRef.current = setInterval(() => {
+      setTimerSec(prev => {
+        if (prev <= 1) { clearInterval(timerRef.current); setTimerRunning(false); return 0; }
+        return prev - 1;
+      });
+    }, 1000);
   };
   const stopTimer = () => { clearInterval(timerRef.current); setTimerRunning(false); setTimerSec(0); setTimerStarted(false); };
 
@@ -318,7 +319,7 @@ export default function App() {
   const sectionHead = { fontFamily: 'Cinzel, serif', fontSize: 13, color: '#c9a84c', letterSpacing: 2, fontWeight: '700', marginBottom: 14, borderBottom: '1px solid #2d2050', paddingBottom: 8 };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#080614', color: '#e0d4c0', fontFamily: "'Crimson Pro', serif", zoom: fontSize }}>
+    <div style={{ width: `${100 / fontSize}%`, minHeight: `${100 / fontSize}vh`, transform: `scale(${fontSize})`, transformOrigin: 'top left', background: '#080614', color: '#e0d4c0', fontFamily: "'Crimson Pro', serif" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:wght@400;600&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -441,7 +442,12 @@ export default function App() {
                     display: 'flex', alignItems: 'center', gap: 10, padding: '7px 10px',
                     background: i % 2 === 0 ? '#0e0a22' : 'transparent', borderRadius: 5, marginBottom: 2,
                   }}>
-                    <div style={{ width: 11, height: 11, borderRadius: '50%', background: p.color, flexShrink: 0, boxShadow: `0 0 6px ${p.color}88` }} />
+                    <label title="Click to change color" style={{ position: 'relative', flexShrink: 0, cursor: 'pointer' }}>
+                      <div style={{ width: 18, height: 18, borderRadius: '50%', background: p.color, boxShadow: `0 0 6px ${p.color}88`, border: '1.5px solid rgba(255,255,255,0.3)' }} />
+                      <input type="color" value={p.color}
+                        onChange={e => setPlayers(prev => prev.map(pl => pl.id === p.id ? { ...pl, color: e.target.value } : pl))}
+                        style={{ position: 'absolute', opacity: 0, width: 0, height: 0, top: 0, left: 0 }} />
+                    </label>
                     <span style={{ flex: 1, fontSize: 15 }}>{p.name}</span>
                     <button style={{ ...btn('red'), padding: '3px 10px', fontSize: 10 }} onClick={() => removePlayer(p.id)}>✕</button>
                   </div>
@@ -547,7 +553,7 @@ export default function App() {
                     <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
                       <thead>
                         <tr>
-                          {['Tbl', 'Player 1', 'W', '', 'L', 'Player 2'].map((h, i) => (
+                          {['Tbl', 'Player 1', 'Wins', '', 'Wins', 'Player 2'].map((h, i) => (
                             <th key={i} style={{ fontFamily: 'Cinzel, serif', fontSize: 10, letterSpacing: 1, color: '#6a5a4a', padding: '4px 10px', textAlign: i < 2 ? 'left' : 'center', borderBottom: '1px solid #2d2050', whiteSpace: 'nowrap' }}>{h}</th>
                           ))}
                         </tr>
