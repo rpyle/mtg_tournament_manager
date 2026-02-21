@@ -159,8 +159,8 @@ export default function App() {
   const [deckMin, setDeckMin] = useState('30');
   const [roundMin, setRoundMin] = useState('50');
   const [matchFormat, setMatchFormat] = useState('bo3'); // 'bo1' or 'bo3'
-  const [fontSize, setFontSize] = useState(1.0);       // applied on release
-  const [sliderValue, setSliderValue] = useState(1.0); // tracks thumb while dragging
+  const [fontSize, setFontSize] = useState(2.0);       // applied on release
+  const [sliderValue, setSliderValue] = useState(2.0); // tracks thumb while dragging
   const [newName, setNewName] = useState('');
   const [dropName, setDropName] = useState('');
   const [notif, setNotif] = useState(null);
