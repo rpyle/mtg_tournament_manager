@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/mtg_tournament_manager/static/css/main.e6c13ad2.css",
-    "main.js": "/mtg_tournament_manager/static/js/main.76c727bc.js",
+    "main.js": "/mtg_tournament_manager/static/js/main.6bc15328.js",
     "static/js/453.cffc7593.chunk.js": "/mtg_tournament_manager/static/js/453.cffc7593.chunk.js",
     "index.html": "/mtg_tournament_manager/index.html",
     "main.e6c13ad2.css.map": "/mtg_tournament_manager/static/css/main.e6c13ad2.css.map",
-    "main.76c727bc.js.map": "/mtg_tournament_manager/static/js/main.76c727bc.js.map",
+    "main.6bc15328.js.map": "/mtg_tournament_manager/static/js/main.6bc15328.js.map",
     "453.cffc7593.chunk.js.map": "/mtg_tournament_manager/static/js/453.cffc7593.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.76c727bc.js"
+    "static/js/main.6bc15328.js"
   ]
 }
